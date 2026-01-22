@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="id" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summit Seeker | Jelajahi Gunung Dunia</title>
+    
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="Jelajahi keindahan puncak gunung paling menakjubkan di dunia. Temukan panduan pendakian, tur virtual 360°, dan pesan petualangan Anda berikutnya bersama Summit Seeker.">
+    <meta name="keywords" content="gunung, pendakian, hiking, petualangan, wisata alam, everest, fuji, bromo, tur gunung">
+    <meta name="author" content="Summit Seeker">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏔️</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700;800&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS and Tailwind Config -->
+    <style>
+        /* Custom CSS for animations, specific styling, and components */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in { animation: fadeIn 1s ease-in-out forwards; }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .parallax-text {
+            transform: translateZ(-1px) scale(1.1);
+        }
+        
+        .testimonial-carousel .carousel-item {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .testimonial-carousel .carousel-item.active {
+            display: block;
+        }
+        
+        /* Custom scrollbar for dark mode */
+        :root {
+            --scrollbar-bg: #F1F5F9;
+            --scrollbar-thumb: #94A3B8;
+        }
+        html.dark {
+            --scrollbar-bg: #1E293B;
+            --scrollbar-thumb: #475569;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 6px;
+        }
+    </style>
+    <script>
+        // Tailwind CSS Configuration
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-light': '#F8F8F8',
+                        'brand-dark': '#121212',
+                        'brand-accent': '#4A90E2',
+                        'brand-green': '#2E7D32'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-light dark:bg-brand-dark text-slate-800 dark:text-slate-200 font-sans antialiased">
+    
+    <!-- Dark Mode & Language Initializer Script -->
+    <script>
+        // Apply theme immediately to prevent flashing
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        // Apply language
+        const savedLang = localStorage.getItem('lang') || 'id';
+    </script>
+
+    <!-- Header / Navbar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <i data-lucide="mountain-snow" class="text-brand-accent"></i>
+                <span class="text-xl font-bold font-display text-slate-900 dark:text-white">Summit Seeker</span>
+            </a>
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="#destinasi" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent transition">
+                    <span data-lang="id">Destinasi</span>
+                    <span data-lang="en" class="hidden">Destinations</span>
+                </a>
+                <a href="#blog" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent transition">
+                    <span data-lang="id">Blog</span>
+                    <span data-lang="en" class="hidden">Blog</span>
+                </a>
+                <a href="#kontak" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent transition">
+                    <span data-lang="id">Kontak</span>
+                    <span data-lang="en" class="hidden">Contact</span>
+                </a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="search-open-btn" aria-label="Buka Pencarian">
+                    <i data-lucide="search" class="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent"></i>
+                </button>
+                <div class="relative">
+                    <select id="language-switcher" class="bg-transparent text-sm font-medium focus:outline-none">
+                        <option value="id">ID</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
+                <button id="theme-toggle-btn" aria-label="Ganti Tema">
+                    <i data-lucide="sun" class="w-5 h-5 text-slate-600 dark:text-slate-300 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-5 h-5 text-slate-600 dark:text-slate-300 block dark:hidden"></i>
+                </button>
+                <a href="#reservasi" class="hidden sm:inline-block bg-brand-accent hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full transition">
+                    <span data-lang="id">Pesan Tur</span>
+                    <span data-lang="en" class="hidden">Book a Tour</span>
+                </a>
+                <button id="mobile-menu-btn" class="lg:hidden">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-800 absolute top-full left-0 w-full">
+            <a href="#destinasi" class="block py-3 px-6 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                <span data-lang="id">Destinasi</span><span data-lang="en" class="hidden">Destinations</span></a>
+            <a href="#blog" class="block py-3 px-6 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                <span data-lang="id">Blog</span><span data-lang="en" class="hidden">Blog</span></a>
+            <a href="#kontak" class="block py-3 px-6 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                <span data-lang="id">Kontak</span><span data-lang="en" class="hidden">Contact</span></a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
+            <video autoplay loop muted playsinline class="hero-video" poster="https://placehold.co/1920x1080/000000/FFFFFF?text=Loading+Video...">
+                <!-- Use a copyright-free video. Placeholder source -->
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-beautiful-aerial-shot-of-a-road-in-the-mountains-32021-large.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative z-10 px-4">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-extrabold mb-4 animate-fade-in-up">
+                    <span data-lang="id">Taklukkan Puncak Dunia</span>
+                    <span data-lang="en" class="hidden">Conquer The World's Peaks</span>
+                </h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <span data-lang="id">Temukan jalur pendakian paling menakjubkan di seluruh benua.</span>
+                    <span data-lang="en" class="hidden">Discover the most breathtaking hiking trails across all continents.</span>
+                </p>
+                <div class="max-w-xl mx-auto animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="relative">
+                        <input type="search" placeholder="Cari gunung atau negara..." class="w-full py-4 pl-6 pr-12 text-slate-900 rounded-full focus:outline-none focus:ring-4 focus:ring-brand-accent/50">
+                        <button class="absolute top-1/2 right-4 -translate-y-1/2">
+                            <i data-lucide="search" class="w-6 h-6 text-slate-500"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Destinations Section -->
+        <section id="destinasi" class="py-20 md:py-32 bg-white dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
+                        <span data-lang="id">Destinasi Populer</span>
+                        <span data-lang="en" class="hidden">Popular Destinations</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        <span data-lang="id">Jelajahi pilihan puncak yang menjadi favorit para petualang dari seluruh dunia.</span>
+                        <span data-lang="en" class="hidden">Explore a selection of peaks favored by adventurers worldwide.</span>
+                    </p>
+                </div>
+                
+                <!-- Filter Destinasi -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12 reveal">
+                    <button class="filter-btn active" data-filter="all">
+                        <span data-lang="id">Semua</span><span data-lang="en" class="hidden">All</span></button>
+                    <button class="filter-btn" data-filter="asia">
+                        <span data-lang="id">Asia</span><span data-lang="en" class="hidden">Asia</span></button>
+                    <button class="filter-btn" data-filter="eropa">
+                        <span data-lang="id">Eropa</span><span data-lang="en" class="hidden">Europe</span></button>
+                    <button class="filter-btn" data-filter="amerika">
+                        <span data-lang="id">Amerika</span><span data-lang="en" class="hidden">America</span></button>
+                </div>
+
+                <!-- Destination Grid -->
+                <div id="destination-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Destination Card 1 -->
+                    <div class="destination-card reveal" data-category="asia">
+                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                            <img src="https://placehold.co/600x400/334155/FFFFFF?text=Gunung+Fuji" alt="Gunung Fuji" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-6 text-white">
+                                <h3 class="text-2xl font-bold font-display">Gunung Fuji</h3>
+                                <p class="text-sm">Jepang</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination Card 2 -->
+                    <div class="destination-card reveal" data-category="eropa">
+                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                            <img src="https://placehold.co/600x400/047857/FFFFFF?text=Matterhorn" alt="Matterhorn" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-6 text-white">
+                                <h3 class="text-2xl font-bold font-display">Matterhorn</h3>
+                                <p class="text-sm">Swiss / Italia</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination Card 3 -->
+                    <div class="destination-card reveal" data-category="amerika">
+                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                            <img src="https://placehold.co/600x400/991B1B/FFFFFF?text=Denali" alt="Denali" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-6 text-white">
+                                <h3 class="text-2xl font-bold font-display">Denali</h3>
+                                <p class="text-sm">Alaska, USA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination Card 4 -->
+                     <div class="destination-card reveal" data-category="asia">
+                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                            <img src="https://placehold.co/600x400/7C3AED/FFFFFF?text=Everest" alt="Gunung Everest" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-6 text-white">
+                                <h3 class="text-2xl font-bold font-display">Gunung Everest</h3>
+                                <p class="text-sm">Nepal / Cina</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Counter/Statistics Section -->
+        <section class="py-20 md:py-24 bg-brand-light dark:bg-brand-dark">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                    <div class="reveal">
+                        <h3 class="text-5xl font-bold text-brand-accent mb-2" data-counter="150">0</h3>
+                        <p class="text-lg text-slate-600 dark:text-slate-400">
+                            <span data-lang="id">Puncak Tereksplorasi</span>
+                            <span data-lang="en" class="hidden">Peaks Explored</span>
+                        </p>
+                    </div>
+                    <div class="reveal">
+                        <h3 class="text-5xl font-bold text-brand-accent mb-2" data-counter="10000">0</h3>
+                        <p class="text-lg text-slate-600 dark:text-slate-400">
+                             <span data-lang="id">Petualang Bahagia</span>
+                             <span data-lang="en" class="hidden">Happy Adventurers</span>
+                        </p>
+                    </div>
+                    <div class="reveal">
+                        <h3 class="text-5xl font-bold text-brand-accent mb-2" data-counter="40">0</h3>
+                        <p class="text-lg text-slate-600 dark:text-slate-400">
+                             <span data-lang="id">Negara Terjangkau</span>
+                             <span data-lang="en" class="hidden">Countries Covered</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Virtual Tour 360 Section -->
+        <section class="relative py-32 md:py-48 bg-slate-800 text-white text-center">
+            <img src="https://placehold.co/1920x800/1E293B/FFFFFF?text=Virtual+Tour+Background" alt="Latar belakang pemandangan gunung" class="absolute inset-0 w-full h-full object-cover opacity-20">
+            <div class="relative container mx-auto px-6 reveal">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">
+                    <span data-lang="id">Rasakan Pengalaman Puncak dari Rumah</span>
+                    <span data-lang="en" class="hidden">Experience The Summit From Home</span>
+                </h2>
+                <p class="text-lg max-w-3xl mx-auto mb-10">
+                    <span data-lang="id">Tur virtual 360° kami membawa Anda langsung ke puncak-puncak paling ikonik di dunia.</span>
+                    <span data-lang="en" class="hidden">Our 360° virtual tours bring you directly to the world's most iconic peaks.</span>
+                </p>
+                <button id="video-popup-btn" class="bg-white hover:bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-full transition inline-flex items-center space-x-2">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i>
+                    <span>
+                        <span data-lang="id">Tonton Video Tur</span>
+                        <span data-lang="en" class="hidden">Watch Tour Video</span>
+                    </span>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Blog Section -->
+        <section id="blog" class="py-20 md:py-32 bg-white dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
+                        <span data-lang="id">Artikel & Panduan</span>
+                        <span data-lang="en" class="hidden">Articles & Guides</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        <span data-lang="id">Dapatkan tips, cerita perjalanan, dan panduan persiapan dari para ahli kami.</span>
+                        <span data-lang="en" class="hidden">Get tips, travel stories, and preparation guides from our experts.</span>
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Blog Post 1 -->
+                    <div class="reveal">
+                        <div class="bg-brand-light dark:bg-brand-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                            <img src="https://placehold.co/600x400/475569/FFFFFF?text=Blog+Post+1" alt="Peralatan mendaki" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <p class="text-sm text-brand-accent mb-2">
+                                    <span data-lang="id">PERSIAPAN</span>
+                                    <span data-lang="en" class="hidden">PREPARATION</span>
+                                </p>
+                                <h3 class="text-xl font-bold mb-3">
+                                    <span data-lang="id">10 Peralatan Wajib untuk Pendaki Pemula</span>
+                                    <span data-lang-en" class="hidden">10 Essential Gears for Beginner Hikers</span>
+                                </h3>
+                                <a href="#" class="font-medium text-brand-accent hover:underline">
+                                    <span data-lang="id">Baca Selengkapnya</span>
+                                    <span data-lang="en" class="hidden">Read More</span> &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Blog Post 2 -->
+                    <div class="reveal">
+                        <div class="bg-brand-light dark:bg-brand-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                            <img src="https://placehold.co/600x400/52525B/FFFFFF?text=Blog+Post+2" alt="Fotografi gunung" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <p class="text-sm text-brand-accent mb-2">
+                                    <span data-lang="id">FOTOGRAFI</span>
+                                    <span data-lang="en" class="hidden">PHOTOGRAPHY</span>
+                                </p>
+                                <h3 class="text-xl font-bold mb-3">
+                                    <span data-lang="id">Tips Memotret Milky Way di Puncak Gunung</span>
+                                    <span data-lang-en" class="hidden">Tips for Photographing the Milky Way at the Summit</span>
+                                </h3>
+                                <a href="#" class="font-medium text-brand-accent hover:underline">
+                                    <span data-lang="id">Baca Selengkapnya</span>
+                                    <span data-lang="en" class="hidden">Read More</span> &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Blog Post 3 -->
+                    <div class="reveal">
+                        <div class="bg-brand-light dark:bg-brand-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                            <img src="https://placehold.co/600x400/166534/FFFFFF?text=Blog+Post+3" alt="Makanan pendakian" class="w-full h-56 object-cover">
+                            <div class="p-6">
+                                <p class="text-sm text-brand-accent mb-2">
+                                    <span data-lang="id">NUTRISI</span>
+                                    <span data-lang="en" class="hidden">NUTRITION</span>
+                                </p>
+                                <h3 class="text-xl font-bold mb-3">
+                                    <span data-lang="id">Makanan Terbaik untuk Energi Saat Mendaki</span>
+                                    <span data-lang-en" class="hidden">Best Foods for Energy While Hiking</span>
+                                </h3>
+                                <a href="#" class="font-medium text-brand-accent hover:underline">
+                                    <span data-lang="id">Baca Selengkapnya</span>
+                                    <span data-lang="en" class="hidden">Read More</span> &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-20 md:py-32 bg-brand-light dark:bg-brand-dark">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
+                        <span data-lang="id">Apa Kata Mereka</span>
+                        <span data-lang="en" class="hidden">What They Say</span>
+                    </h2>
+                </div>
+                <div class="testimonial-carousel relative max-w-3xl mx-auto text-center reveal">
+                    <!-- Carousel items will be injected by JS -->
+                </div>
+                <div class="flex justify-center mt-8 space-x-2" id="carousel-dots">
+                    <!-- Dots will be injected by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Reservation Form Section -->
+        <section id="reservasi" class="py-20 md:py-32 bg-white dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
+                        <span data-lang="id">Rencanakan Petualangan Anda</span>
+                        <span data-lang="en" class="hidden">Plan Your Adventure</span>
+                    </h2>
+                     <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        <span data-lang="id">Isi formulir di bawah ini untuk memulai reservasi tur impian Anda.</span>
+                        <span data-lang="en" class="hidden">Fill out the form below to start booking your dream tour.</span>
+                    </p>
+                </div>
+                <form class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                    <div>
+                        <label for="destinasi" class="form-label">
+                            <span data-lang="id">Pilih Destinasi</span><span data-lang="en" class="hidden">Choose Destination</span>
+                        </label>
+                        <select id="destinasi" class="form-input">
+                            <option>Gunung Fuji, Jepang</option>
+                            <option>Matterhorn, Swiss</option>
+                            <option>Denali, USA</option>
+                            <option>Gunung Everest, Nepal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="tanggal" class="form-label">
+                            <span data-lang="id">Tanggal Keberangkatan</span><span data-lang="en" class="hidden">Departure Date</span>
+                        </label>
+                        <input type="date" id="tanggal" class="form-input">
+                    </div>
+                    <div>
+                        <label for="nama" class="form-label">
+                            <span data-lang="id">Nama Lengkap</span><span data-lang="en" class="hidden">Full Name</span>
+                        </label>
+                        <input type="text" id="nama" class="form-input" placeholder="John Doe">
+                    </div>
+                    <div>
+                        <label for="email_reservasi" class="form-label">Email</label>
+                        <input type="email" id="email_reservasi" class="form-input" placeholder="anda@email.com">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="pesan_reservasi" class="form-label">
+                            <span data-lang="id">Pesan Tambahan</span><span data-lang="en" class="hidden">Additional Message</span>
+                        </label>
+                        <textarea id="pesan_reservasi" rows="4" class="form-input" placeholder="Contoh: Saya butuh pemandu berbahasa Inggris."></textarea>
+                    </div>
+                    <div class="md:col-span-2 text-center">
+                        <button type="submit" class="bg-brand-accent hover:bg-blue-600 text-white font-bold py-3 px-10 rounded-full transition">
+                            <span data-lang="id">Kirim Permintaan</span>
+                            <span data-lang="en" class="hidden">Send Request</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact & Map Section -->
+        <section id="kontak" class="py-20 md:py-32 bg-brand-light dark:bg-brand-dark">
+            <div class="container mx-auto px-6">
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal">
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
+                            <span data-lang="id">Hubungi Kami</span><span data-lang="en" class="hidden">Get in Touch</span>
+                        </h2>
+                        <p class="text-lg text-slate-600 dark:text-slate-400 mb-8">
+                            <span data-lang="id">Punya pertanyaan? Tim kami siap membantu Anda 24/7.</span>
+                            <span data-lang-en" class="hidden">Have questions? Our team is ready to assist you 24/7.</span>
+                        </p>
+                        <form class="space-y-6">
+                             <div>
+                                <label for="nama_kontak" class="form-label">
+                                    <span data-lang="id">Nama</span><span data-lang="en" class="hidden">Name</span></label>
+                                <input type="text" id="nama_kontak" class="form-input" placeholder="Nama Anda">
+                            </div>
+                             <div>
+                                <label for="email_kontak" class="form-label">Email</label>
+                                <input type="email" id="email_kontak" class="form-input" placeholder="Email Anda">
+                            </div>
+                            <div>
+                                <label for="pesan_kontak" class="form-label">
+                                    <span data-lang="id">Pesan</span><span data-lang="en" class="hidden">Message</span></label>
+                                <textarea id="pesan_kontak" rows="5" class="form-input" placeholder="Tulis pesan Anda di sini..."></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="bg-brand-accent hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition">
+                                     <span data-lang="id">Kirim Pesan</span><span data-lang="en" class="hidden">Send Message</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="h-96 lg:h-full w-full rounded-xl overflow-hidden shadow-lg reveal">
+                        <!-- Map Integration -->
+                         <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158858.4351322234!2d107.5731165416016!3d-6.903444394980836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e639829d5edf%3A0x401e8f1fc28c670!2sBandung%2C%20Kota%20Bandung%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1678886564521!5m2!1sid!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                 </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 dark:bg-black text-slate-400">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- Column 1: Brand -->
+                <div>
+                    <a href="#" class="flex items-center space-x-2 mb-4">
+                        <i data-lucide="mountain-snow" class="text-brand-accent"></i>
+                        <span class="text-xl font-bold font-display text-white">Summit Seeker</span>
+                    </a>
+                    <p class="mb-4">
+                        <span data-lang="id">Menghubungkan petualang dengan puncak-puncak termegah di dunia.</span>
+                        <span data-lang="en" class="hidden">Connecting adventurers with the world's grandest peaks.</span>
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="social-icon"><i data-lucide="youtube"></i></a>
+                        <a href="#" class="social-icon"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="social-icon"><i data-lucide="twitter"></i></a>
+                    </div>
+                </div>
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4 class="footer-heading">
+                        <span data-lang="id">Tautan Cepat</span><span data-lang="en" class="hidden">Quick Links</span></h4>
+                    <ul class="space-y-3">
+                        <li><a href="#destinasi" class="footer-link">
+                            <span data-lang="id">Destinasi</span><span data-lang="en" class="hidden">Destinations</span></a></li>
+                        <li><a href="#blog" class="footer-link">Blog</a></li>
+                        <li><a href="#reservasi" class="footer-link">
+                            <span data-lang="id">Reservasi</span><span data-lang="en" class="hidden">Booking</span></a></li>
+                        <li><a href="#kontak" class="footer-link">
+                            <span data-lang="id">Kontak</span><span data-lang="en" class="hidden">Contact</span></a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Bantuan -->
+                 <div>
+                    <h4 class="footer-heading">
+                        <span data-lang="id">Bantuan</span><span data-lang="en" class="hidden">Help</span></h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                        <li><a href="#" class="footer-link">
+                            <span data-lang="id">Syarat & Ketentuan</span><span data-lang="en" class="hidden">Terms & Conditions</span></a></li>
+                        <li><a href="#" class="footer-link">
+                            <span data-lang="id">Kebijakan Privasi</span><span data-lang="en" class="hidden">Privacy Policy</span></a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Newsletter -->
+                 <div>
+                    <h4 class="footer-heading">
+                        <span data-lang="id">Langganan Newsletter</span><span data-lang="en" class="hidden">Subscribe Newsletter</span>
+                    </h4>
+                    <p class="mb-4">
+                        <span data-lang="id">Dapatkan info dan penawaran terbaru dari kami.</span>
+                        <span data-lang="en" class="hidden">Get the latest info and offers from us.</span>
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="Email Anda" class="w-full bg-slate-800 border border-slate-700 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-accent">
+                        <button class="bg-brand-accent hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-md transition">
+                            <i data-lucide="send"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center text-sm">
+                <p>&copy; <span id="current-year"></span> Summit Seeker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="fixed inset-0 bg-black/90 z-[99] hidden items-center justify-center p-4">
+        <button id="search-close-btn" class="absolute top-8 right-8 text-white">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        <div class="w-full max-w-2xl">
+            <input type="search" placeholder="Ketik untuk mencari..." class="w-full bg-transparent border-b-2 border-slate-500 text-white text-3xl text-center focus:outline-none focus:border-brand-accent py-4">
+        </div>
+    </div>
+
+    <!-- Video Popup Modal -->
+    <div id="video-popup" class="fixed inset-0 bg-black/80 z-[99] hidden items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl bg-black rounded-lg overflow-hidden">
+            <button id="video-close-btn" class="absolute top-2 right-4 text-white text-4xl">&times;</button>
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe id="video-iframe" src="https://www.youtube.com/embed/CnX6wy_y4bk?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chatbot Widget -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <div id="chat-window" class="hidden absolute bottom-20 right-0 w-80 h-96 bg-white dark:bg-slate-800 rounded-xl shadow-2xl flex flex-col transition-all">
+            <div class="bg-brand-accent text-white p-4 rounded-t-xl">
+                <h4 class="font-bold">
+                    <span data-lang="id">Panduan Wisata</span><span data-lang="en" class="hidden">Tour Guide</span>
+                </h4>
+                <p class="text-sm">
+                    <span data-lang="id">Tanyakan apa saja!</span><span data-lang-en" class="hidden">Ask me anything!</span></p>
+            </div>
+            <div class="flex-1 p-4 text-sm text-slate-700 dark:text-slate-300">
+                <p>
+                    <span data-lang="id">Halo! Bagaimana saya bisa membantu Anda merencanakan petualangan hari ini?</span>
+                    <span data-lang-en" class="hidden">Hello! How can I help you plan your adventure today?</span>
+                </p>
+            </div>
+            <div class="p-2 border-t border-slate-200 dark:border-slate-700">
+                <input type="text" placeholder="Ketik pesan..." class="w-full bg-slate-100 dark:bg-slate-700 rounded-full px-4 py-2 text-sm focus:outline-none">
+            </div>
+        </div>
+        <button id="chatbot-toggle-btn" class="bg-brand-accent hover:bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+            <i data-lucide="message-circle" class="w-8 h-8"></i>
+        </button>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // --- GLOBAL VARIABLES & HELPERS ---
+            const select = (el) => document.querySelector(el);
+            const selectAll = (el) => document.querySelectorAll(el);
+
+            // --- NAVBAR SCROLL BEHAVIOR ---
+            const navbar = select('#navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'dark:bg-slate-900', 'shadow-md');
+                } else {
+                    navbar.classList.remove('bg-white', 'dark:bg-slate-900', 'shadow-md');
+                }
+            });
+
+            // --- THEME (DARK/LIGHT MODE) TOGGLE ---
+            const themeToggleBtn = select('#theme-toggle-btn');
+            themeToggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                const isDarkMode = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            });
+            
+            // --- LANGUAGE SWITCHER ---
+            const langSwitcher = select('#language-switcher');
+            const langElements = selectAll('[data-lang]');
+            
+            const setLanguage = (lang) => {
+                langElements.forEach(el => {
+                    if (el.dataset.lang === lang) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                });
+                langSwitcher.value = lang;
+                localStorage.setItem('lang', lang);
+            };
+
+            langSwitcher.addEventListener('change', (e) => setLanguage(e.target.value));
+            // Set initial language
+            setLanguage(localStorage.getItem('lang') || 'id');
+
+
+            // --- SEARCH OVERLAY ---
+            const searchOpenBtn = select('#search-open-btn');
+            const searchCloseBtn = select('#search-close-btn');
+            const searchOverlay = select('#search-overlay');
+            searchOpenBtn.addEventListener('click', () => searchOverlay.classList.remove('hidden'));
+            searchCloseBtn.addEventListener('click', () => searchOverlay.classList.add('hidden'));
+
+            // --- MOBILE MENU ---
+            const mobileMenuBtn = select('#mobile-menu-btn');
+            const mobileMenu = select('#mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // --- SCROLL ANIMATIONS (REVEAL) ---
+            const revealElements = selectAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- COUNTER ANIMATION ---
+            const counters = selectAll('[data-counter]');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = +el.dataset.counter;
+                        let count = 0;
+                        const duration = 2000;
+                        const stepTime = Math.abs(Math.floor(duration / target));
+
+                        const timer = setInterval(() => {
+                            count += Math.ceil(target / (duration / 10));
+                            if (count >= target) {
+                                count = target;
+                                clearInterval(timer);
+                            }
+                            el.innerText = count.toLocaleString();
+                        }, 10);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(counter => counterObserver.observe(counter));
+            
+            // --- DESTINATION FILTER ---
+            const filterBtns = selectAll('.filter-btn');
+            const destinationCards = selectAll('.destination-card');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const filter = btn.dataset.filter;
+                    destinationCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // --- TESTIMONIAL CAROUSEL ---
+            const testimonials = [
+                {
+                    quote_id: "Perjalanan terbaik dalam hidup saya! Summit Seeker mengatur semuanya dengan sempurna.",
+                    quote_en: "The best trip of my life! Summit Seeker organized everything perfectly.",
+                    author: "Alex Johnson",
+                    origin: "California, USA"
+                },
+                {
+                    quote_id: "Pemandu yang sangat profesional dan ramah. Pemandangannya luar biasa. Sangat direkomendasikan!",
+                    quote_en: "Very professional and friendly guides. The scenery was incredible. Highly recommended!",
+                    author: "Maria Garcia",
+                    origin: "Madrid, Spain"
+                },
+                {
+                    quote_id: "Pengalaman yang tak terlupakan. Tur virtualnya membuat saya memutuskan untuk pergi!",
+                    quote_en: "An unforgettable experience. The virtual tour made me decide to go!",
+                    author: "Kenji Tanaka",
+                    origin: "Tokyo, Japan"
+                }
+            ];
+
+            const carouselContainer = select('.testimonial-carousel');
+            const dotsContainer = select('#carousel-dots');
+            let currentSlide = 0;
+
+            testimonials.forEach((testimonial, index) => {
+                const item = document.createElement('div');
+                item.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+                item.innerHTML = `
+                    <p class="text-xl md:text-2xl font-serif italic mb-6">
+                        "<span data-lang="id">${testimonial.quote_id}</span>
+                         <span data-lang="en" class="hidden">${testimonial.quote_en}</span>"
+                    </p>
+                    <div class="font-bold uppercase tracking-wider">${testimonial.author}</div>
+                    <div class="text-sm text-slate-500">${testimonial.origin}</div>
+                `;
+                carouselContainer.appendChild(item);
+
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition ${index === 0 ? 'bg-brand-accent' : 'bg-slate-300 dark:bg-slate-600'}`;
+                dot.addEventListener('click', () => showSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            const slides = selectAll('.carousel-item');
+            const dots = selectAll('#carousel-dots button');
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                    dots[i].classList.toggle('bg-brand-accent', i === index);
+                    dots[i].classList.toggle('bg-slate-300', i !== index);
+                    dots[i].classList.toggle('dark:bg-slate-600', i !== index);
+                });
+                currentSlide = index;
+            }
+
+            setInterval(() => {
+                let nextSlide = (currentSlide + 1) % slides.length;
+                showSlide(nextSlide);
+            }, 5000); // Change slide every 5 seconds
+            
+            // --- VIDEO POPUP ---
+            const videoPopupBtn = select('#video-popup-btn');
+            const videoPopup = select('#video-popup');
+            const videoCloseBtn = select('#video-close-btn');
+            const videoIframe = select('#video-iframe');
+
+            function toggleVideo(state) {
+                videoPopup.classList.toggle('hidden');
+                videoPopup.classList.toggle('flex');
+                const command = state === 'play' ? 'playVideo' : 'pauseVideo';
+                videoIframe.contentWindow.postMessage(`{"event":"command","func":"${command}","args":""}`, '*');
+            }
+
+            videoPopupBtn.addEventListener('click', () => toggleVideo('play'));
+            videoCloseBtn.addEventListener('click', () => toggleVideo('pause'));
+
+            // --- CHATBOT ---
+            const chatbotToggleBtn = select('#chatbot-toggle-btn');
+            const chatWindow = select('#chat-window');
+            chatbotToggleBtn.addEventListener('click', () => {
+                chatWindow.classList.toggle('hidden');
+            });
+
+            // --- FOOTER YEAR ---
+            select('#current-year').textContent = new Date().getFullYear();
+            
+            // --- Custom CSS application for form inputs and buttons ---
+            const formInputs = 'w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-transparent transition';
+            const formLabels = 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2';
+            const filterButtons = 'px-5 py-2 text-sm font-semibold rounded-full transition bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600';
+            const filterActive = 'bg-brand-accent text-white hover:bg-brand-accent dark:hover:bg-brand-accent';
+            const footerHeadings = 'text-white font-bold mb-4 uppercase tracking-wider text-sm';
+            const footerLinks = 'hover:text-white transition';
+            const socialIcons = 'w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-brand-accent transition';
+            
+            document.querySelectorAll('.form-input').forEach(el => el.className += ` ${formInputs}`);
+            document.querySelectorAll('.form-label').forEach(el => el.className += ` ${formLabels}`);
+            document.querySelectorAll('.filter-btn').forEach(el => {
+                el.className += ` ${filterButtons}`;
+                if(el.classList.contains('active')) el.className += ` ${filterActive}`;
+            });
+            document.querySelectorAll('.footer-heading').forEach(el => el.className += ` ${footerHeadings}`);
+            document.querySelectorAll('.footer-link').forEach(el => el.className += ` ${footerLinks}`);
+            document.querySelectorAll('.social-icon').forEach(el => el.className += ` ${socialIcons}`);
+
+            // Re-apply language after dynamic content injection (carousel)
+            setLanguage(localStorage.getItem('lang') || 'id');
+        });
+    </script>
+</body>
+</html>
