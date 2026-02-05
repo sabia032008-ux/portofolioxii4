@@ -1,891 +1,852 @@
-<!DOCTYPE html>
-<html lang="id" class="">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summit Seeker | Jelajahi Gunung Dunia</title>
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bianita Maulida Setiawan - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
     
-    <!-- Meta Tags for SEO -->
-    <meta name="description" content="Jelajahi keindahan puncak gunung paling menakjubkan di dunia. Temukan panduan pendakian, tur virtual 360°, dan pesan petualangan Anda berikutnya bersama Summit Seeker.">
-    <meta name="keywords" content="gunung, pendakian, hiking, petualangan, wisata alam, everest, fuji, bromo, tur gunung">
-    <meta name="author" content="Summit Seeker">
-
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏔️</text></svg>">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700;800&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    * {
+      font-family: 'Quicksand', sans-serif;
+    }
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Custom CSS and Tailwind Config -->
-    <style>
-        /* Custom CSS for animations, specific styling, and components */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in { animation: fadeIn 1s ease-in-out forwards; }
-        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-        }
-
-        .parallax-text {
-            transform: translateZ(-1px) scale(1.1);
-        }
-        
-        .testimonial-carousel .carousel-item {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        .testimonial-carousel .carousel-item.active {
-            display: block;
-        }
-        
-        /* Custom scrollbar for dark mode */
-        :root {
-            --scrollbar-bg: #F1F5F9;
-            --scrollbar-thumb: #94A3B8;
-        }
-        html.dark {
-            --scrollbar-bg: #1E293B;
-            --scrollbar-thumb: #475569;
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--scrollbar-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--scrollbar-thumb);
-            border-radius: 6px;
-        }
-    </style>
-    <script>
-        // Tailwind CSS Configuration
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                        display: ['Montserrat', 'sans-serif'],
-                    },
-                    colors: {
-                        'brand-light': '#F8F8F8',
-                        'brand-dark': '#121212',
-                        'brand-accent': '#4A90E2',
-                        'brand-green': '#2E7D32'
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-brand-light dark:bg-brand-dark text-slate-800 dark:text-slate-200 font-sans antialiased">
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
     
-    <!-- Dark Mode & Language Initializer Script -->
-    <script>
-        // Apply theme immediately to prevent flashing
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        // Apply language
-        const savedLang = localStorage.getItem('lang') || 'id';
-    </script>
-
-    <!-- Header / Navbar -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center space-x-2">
-                <i data-lucide="mountain-snow" class="text-brand-accent"></i>
-                <span class="text-xl font-bold font-display text-slate-900 dark:text-white">Summit Seeker</span>
-            </a>
-            <nav class="hidden lg:flex items-center space-x-8">
-                <a href="#destinasi" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent transition">
-                    <span data-lang="id">Destinasi</span>
-                    <span data-lang="en" class="hidden">Destinations</span>
-                </a>
-                <a href="#blog" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent transition">
-                    <span data-lang="id">Blog</span>
-                    <span data-lang="en" class="hidden">Blog</span>
-                </a>
-                <a href="#kontak" class="text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent transition">
-                    <span data-lang="id">Kontak</span>
-                    <span data-lang="en" class="hidden">Contact</span>
-                </a>
-            </nav>
-            <div class="flex items-center space-x-4">
-                <button id="search-open-btn" aria-label="Buka Pencarian">
-                    <i data-lucide="search" class="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-brand-accent dark:hover:text-brand-accent"></i>
-                </button>
-                <div class="relative">
-                    <select id="language-switcher" class="bg-transparent text-sm font-medium focus:outline-none">
-                        <option value="id">ID</option>
-                        <option value="en">EN</option>
-                    </select>
-                </div>
-                <button id="theme-toggle-btn" aria-label="Ganti Tema">
-                    <i data-lucide="sun" class="w-5 h-5 text-slate-600 dark:text-slate-300 hidden dark:block"></i>
-                    <i data-lucide="moon" class="w-5 h-5 text-slate-600 dark:text-slate-300 block dark:hidden"></i>
-                </button>
-                <a href="#reservasi" class="hidden sm:inline-block bg-brand-accent hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full transition">
-                    <span data-lang="id">Pesan Tur</span>
-                    <span data-lang="en" class="hidden">Book a Tour</span>
-                </a>
-                <button id="mobile-menu-btn" class="lg:hidden">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-800 absolute top-full left-0 w-full">
-            <a href="#destinasi" class="block py-3 px-6 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
-                <span data-lang="id">Destinasi</span><span data-lang="en" class="hidden">Destinations</span></a>
-            <a href="#blog" class="block py-3 px-6 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
-                <span data-lang="id">Blog</span><span data-lang="en" class="hidden">Blog</span></a>
-            <a href="#kontak" class="block py-3 px-6 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
-                <span data-lang="id">Kontak</span><span data-lang="en" class="hidden">Contact</span></a>
-        </div>
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-        <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
-            <video autoplay loop muted playsinline class="hero-video" poster="https://placehold.co/1920x1080/000000/FFFFFF?text=Loading+Video...">
-                <!-- Use a copyright-free video. Placeholder source -->
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-beautiful-aerial-shot-of-a-road-in-the-mountains-32021-large.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-black/50"></div>
-            <div class="relative z-10 px-4">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-extrabold mb-4 animate-fade-in-up">
-                    <span data-lang="id">Taklukkan Puncak Dunia</span>
-                    <span data-lang="en" class="hidden">Conquer The World's Peaks</span>
-                </h1>
-                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
-                    <span data-lang="id">Temukan jalur pendakian paling menakjubkan di seluruh benua.</span>
-                    <span data-lang="en" class="hidden">Discover the most breathtaking hiking trails across all continents.</span>
-                </p>
-                <div class="max-w-xl mx-auto animate-fade-in-up" style="animation-delay: 0.4s;">
-                    <div class="relative">
-                        <input type="search" placeholder="Cari gunung atau negara..." class="w-full py-4 pl-6 pr-12 text-slate-900 rounded-full focus:outline-none focus:ring-4 focus:ring-brand-accent/50">
-                        <button class="absolute top-1/2 right-4 -translate-y-1/2">
-                            <i data-lucide="search" class="w-6 h-6 text-slate-500"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Destinations Section -->
-        <section id="destinasi" class="py-20 md:py-32 bg-white dark:bg-slate-900">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
-                        <span data-lang="id">Destinasi Populer</span>
-                        <span data-lang="en" class="hidden">Popular Destinations</span>
-                    </h2>
-                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        <span data-lang="id">Jelajahi pilihan puncak yang menjadi favorit para petualang dari seluruh dunia.</span>
-                        <span data-lang="en" class="hidden">Explore a selection of peaks favored by adventurers worldwide.</span>
-                    </p>
-                </div>
-                
-                <!-- Filter Destinasi -->
-                <div class="flex flex-wrap justify-center gap-2 mb-12 reveal">
-                    <button class="filter-btn active" data-filter="all">
-                        <span data-lang="id">Semua</span><span data-lang="en" class="hidden">All</span></button>
-                    <button class="filter-btn" data-filter="asia">
-                        <span data-lang="id">Asia</span><span data-lang="en" class="hidden">Asia</span></button>
-                    <button class="filter-btn" data-filter="eropa">
-                        <span data-lang="id">Eropa</span><span data-lang="en" class="hidden">Europe</span></button>
-                    <button class="filter-btn" data-filter="amerika">
-                        <span data-lang="id">Amerika</span><span data-lang="en" class="hidden">America</span></button>
-                </div>
-
-                <!-- Destination Grid -->
-                <div id="destination-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Destination Card 1 -->
-                    <div class="destination-card reveal" data-category="asia">
-                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-                            <img src="https://placehold.co/600x400/334155/FFFFFF?text=Gunung+Fuji" alt="Gunung Fuji" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 text-white">
-                                <h3 class="text-2xl font-bold font-display">Gunung Fuji</h3>
-                                <p class="text-sm">Jepang</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Destination Card 2 -->
-                    <div class="destination-card reveal" data-category="eropa">
-                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-                            <img src="https://placehold.co/600x400/047857/FFFFFF?text=Matterhorn" alt="Matterhorn" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 text-white">
-                                <h3 class="text-2xl font-bold font-display">Matterhorn</h3>
-                                <p class="text-sm">Swiss / Italia</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Destination Card 3 -->
-                    <div class="destination-card reveal" data-category="amerika">
-                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-                            <img src="https://placehold.co/600x400/991B1B/FFFFFF?text=Denali" alt="Denali" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 text-white">
-                                <h3 class="text-2xl font-bold font-display">Denali</h3>
-                                <p class="text-sm">Alaska, USA</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Destination Card 4 -->
-                     <div class="destination-card reveal" data-category="asia">
-                        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-                            <img src="https://placehold.co/600x400/7C3AED/FFFFFF?text=Everest" alt="Gunung Everest" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-6 text-white">
-                                <h3 class="text-2xl font-bold font-display">Gunung Everest</h3>
-                                <p class="text-sm">Nepal / Cina</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Counter/Statistics Section -->
-        <section class="py-20 md:py-24 bg-brand-light dark:bg-brand-dark">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-                    <div class="reveal">
-                        <h3 class="text-5xl font-bold text-brand-accent mb-2" data-counter="150">0</h3>
-                        <p class="text-lg text-slate-600 dark:text-slate-400">
-                            <span data-lang="id">Puncak Tereksplorasi</span>
-                            <span data-lang="en" class="hidden">Peaks Explored</span>
-                        </p>
-                    </div>
-                    <div class="reveal">
-                        <h3 class="text-5xl font-bold text-brand-accent mb-2" data-counter="10000">0</h3>
-                        <p class="text-lg text-slate-600 dark:text-slate-400">
-                             <span data-lang="id">Petualang Bahagia</span>
-                             <span data-lang="en" class="hidden">Happy Adventurers</span>
-                        </p>
-                    </div>
-                    <div class="reveal">
-                        <h3 class="text-5xl font-bold text-brand-accent mb-2" data-counter="40">0</h3>
-                        <p class="text-lg text-slate-600 dark:text-slate-400">
-                             <span data-lang="id">Negara Terjangkau</span>
-                             <span data-lang="en" class="hidden">Countries Covered</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Virtual Tour 360 Section -->
-        <section class="relative py-32 md:py-48 bg-slate-800 text-white text-center">
-            <img src="https://placehold.co/1920x800/1E293B/FFFFFF?text=Virtual+Tour+Background" alt="Latar belakang pemandangan gunung" class="absolute inset-0 w-full h-full object-cover opacity-20">
-            <div class="relative container mx-auto px-6 reveal">
-                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">
-                    <span data-lang="id">Rasakan Pengalaman Puncak dari Rumah</span>
-                    <span data-lang="en" class="hidden">Experience The Summit From Home</span>
-                </h2>
-                <p class="text-lg max-w-3xl mx-auto mb-10">
-                    <span data-lang="id">Tur virtual 360° kami membawa Anda langsung ke puncak-puncak paling ikonik di dunia.</span>
-                    <span data-lang="en" class="hidden">Our 360° virtual tours bring you directly to the world's most iconic peaks.</span>
-                </p>
-                <button id="video-popup-btn" class="bg-white hover:bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-full transition inline-flex items-center space-x-2">
-                    <i data-lucide="play-circle" class="w-5 h-5"></i>
-                    <span>
-                        <span data-lang="id">Tonton Video Tur</span>
-                        <span data-lang="en" class="hidden">Watch Tour Video</span>
-                    </span>
-                </button>
-            </div>
-        </section>
-        
-        <!-- Blog Section -->
-        <section id="blog" class="py-20 md:py-32 bg-white dark:bg-slate-900">
-            <div class="container mx-auto px-6">
-                 <div class="text-center mb-16 reveal">
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
-                        <span data-lang="id">Artikel & Panduan</span>
-                        <span data-lang="en" class="hidden">Articles & Guides</span>
-                    </h2>
-                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        <span data-lang="id">Dapatkan tips, cerita perjalanan, dan panduan persiapan dari para ahli kami.</span>
-                        <span data-lang="en" class="hidden">Get tips, travel stories, and preparation guides from our experts.</span>
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Blog Post 1 -->
-                    <div class="reveal">
-                        <div class="bg-brand-light dark:bg-brand-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/475569/FFFFFF?text=Blog+Post+1" alt="Peralatan mendaki" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <p class="text-sm text-brand-accent mb-2">
-                                    <span data-lang="id">PERSIAPAN</span>
-                                    <span data-lang="en" class="hidden">PREPARATION</span>
-                                </p>
-                                <h3 class="text-xl font-bold mb-3">
-                                    <span data-lang="id">10 Peralatan Wajib untuk Pendaki Pemula</span>
-                                    <span data-lang-en" class="hidden">10 Essential Gears for Beginner Hikers</span>
-                                </h3>
-                                <a href="#" class="font-medium text-brand-accent hover:underline">
-                                    <span data-lang="id">Baca Selengkapnya</span>
-                                    <span data-lang="en" class="hidden">Read More</span> &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Blog Post 2 -->
-                    <div class="reveal">
-                        <div class="bg-brand-light dark:bg-brand-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/52525B/FFFFFF?text=Blog+Post+2" alt="Fotografi gunung" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <p class="text-sm text-brand-accent mb-2">
-                                    <span data-lang="id">FOTOGRAFI</span>
-                                    <span data-lang="en" class="hidden">PHOTOGRAPHY</span>
-                                </p>
-                                <h3 class="text-xl font-bold mb-3">
-                                    <span data-lang="id">Tips Memotret Milky Way di Puncak Gunung</span>
-                                    <span data-lang-en" class="hidden">Tips for Photographing the Milky Way at the Summit</span>
-                                </h3>
-                                <a href="#" class="font-medium text-brand-accent hover:underline">
-                                    <span data-lang="id">Baca Selengkapnya</span>
-                                    <span data-lang="en" class="hidden">Read More</span> &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Blog Post 3 -->
-                    <div class="reveal">
-                        <div class="bg-brand-light dark:bg-brand-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/166534/FFFFFF?text=Blog+Post+3" alt="Makanan pendakian" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <p class="text-sm text-brand-accent mb-2">
-                                    <span data-lang="id">NUTRISI</span>
-                                    <span data-lang="en" class="hidden">NUTRITION</span>
-                                </p>
-                                <h3 class="text-xl font-bold mb-3">
-                                    <span data-lang="id">Makanan Terbaik untuk Energi Saat Mendaki</span>
-                                    <span data-lang-en" class="hidden">Best Foods for Energy While Hiking</span>
-                                </h3>
-                                <a href="#" class="font-medium text-brand-accent hover:underline">
-                                    <span data-lang="id">Baca Selengkapnya</span>
-                                    <span data-lang="en" class="hidden">Read More</span> &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section class="py-20 md:py-32 bg-brand-light dark:bg-brand-dark">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
-                        <span data-lang="id">Apa Kata Mereka</span>
-                        <span data-lang="en" class="hidden">What They Say</span>
-                    </h2>
-                </div>
-                <div class="testimonial-carousel relative max-w-3xl mx-auto text-center reveal">
-                    <!-- Carousel items will be injected by JS -->
-                </div>
-                <div class="flex justify-center mt-8 space-x-2" id="carousel-dots">
-                    <!-- Dots will be injected by JS -->
-                </div>
-            </div>
-        </section>
-        
-        <!-- Reservation Form Section -->
-        <section id="reservasi" class="py-20 md:py-32 bg-white dark:bg-slate-900">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
-                        <span data-lang="id">Rencanakan Petualangan Anda</span>
-                        <span data-lang="en" class="hidden">Plan Your Adventure</span>
-                    </h2>
-                     <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        <span data-lang="id">Isi formulir di bawah ini untuk memulai reservasi tur impian Anda.</span>
-                        <span data-lang="en" class="hidden">Fill out the form below to start booking your dream tour.</span>
-                    </p>
-                </div>
-                <form class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
-                    <div>
-                        <label for="destinasi" class="form-label">
-                            <span data-lang="id">Pilih Destinasi</span><span data-lang="en" class="hidden">Choose Destination</span>
-                        </label>
-                        <select id="destinasi" class="form-input">
-                            <option>Gunung Fuji, Jepang</option>
-                            <option>Matterhorn, Swiss</option>
-                            <option>Denali, USA</option>
-                            <option>Gunung Everest, Nepal</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="tanggal" class="form-label">
-                            <span data-lang="id">Tanggal Keberangkatan</span><span data-lang="en" class="hidden">Departure Date</span>
-                        </label>
-                        <input type="date" id="tanggal" class="form-input">
-                    </div>
-                    <div>
-                        <label for="nama" class="form-label">
-                            <span data-lang="id">Nama Lengkap</span><span data-lang="en" class="hidden">Full Name</span>
-                        </label>
-                        <input type="text" id="nama" class="form-input" placeholder="John Doe">
-                    </div>
-                    <div>
-                        <label for="email_reservasi" class="form-label">Email</label>
-                        <input type="email" id="email_reservasi" class="form-input" placeholder="anda@email.com">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="pesan_reservasi" class="form-label">
-                            <span data-lang="id">Pesan Tambahan</span><span data-lang="en" class="hidden">Additional Message</span>
-                        </label>
-                        <textarea id="pesan_reservasi" rows="4" class="form-input" placeholder="Contoh: Saya butuh pemandu berbahasa Inggris."></textarea>
-                    </div>
-                    <div class="md:col-span-2 text-center">
-                        <button type="submit" class="bg-brand-accent hover:bg-blue-600 text-white font-bold py-3 px-10 rounded-full transition">
-                            <span data-lang="id">Kirim Permintaan</span>
-                            <span data-lang="en" class="hidden">Send Request</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <!-- Contact & Map Section -->
-        <section id="kontak" class="py-20 md:py-32 bg-brand-light dark:bg-brand-dark">
-            <div class="container mx-auto px-6">
-                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    <div class="reveal">
-                        <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">
-                            <span data-lang="id">Hubungi Kami</span><span data-lang="en" class="hidden">Get in Touch</span>
-                        </h2>
-                        <p class="text-lg text-slate-600 dark:text-slate-400 mb-8">
-                            <span data-lang="id">Punya pertanyaan? Tim kami siap membantu Anda 24/7.</span>
-                            <span data-lang-en" class="hidden">Have questions? Our team is ready to assist you 24/7.</span>
-                        </p>
-                        <form class="space-y-6">
-                             <div>
-                                <label for="nama_kontak" class="form-label">
-                                    <span data-lang="id">Nama</span><span data-lang="en" class="hidden">Name</span></label>
-                                <input type="text" id="nama_kontak" class="form-input" placeholder="Nama Anda">
-                            </div>
-                             <div>
-                                <label for="email_kontak" class="form-label">Email</label>
-                                <input type="email" id="email_kontak" class="form-input" placeholder="Email Anda">
-                            </div>
-                            <div>
-                                <label for="pesan_kontak" class="form-label">
-                                    <span data-lang="id">Pesan</span><span data-lang="en" class="hidden">Message</span></label>
-                                <textarea id="pesan_kontak" rows="5" class="form-input" placeholder="Tulis pesan Anda di sini..."></textarea>
-                            </div>
-                            <div>
-                                <button type="submit" class="bg-brand-accent hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition">
-                                     <span data-lang="id">Kirim Pesan</span><span data-lang="en" class="hidden">Send Message</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="h-96 lg:h-full w-full rounded-xl overflow-hidden shadow-lg reveal">
-                        <!-- Map Integration -->
-                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158858.4351322234!2d107.5731165416016!3d-6.903444394980836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e639829d5edf%3A0x401e8f1fc28c670!2sBandung%2C%20Kota%20Bandung%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1678886564521!5m2!1sid!2sid" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-                 </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 dark:bg-black text-slate-400">
-        <div class="container mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                <!-- Column 1: Brand -->
-                <div>
-                    <a href="#" class="flex items-center space-x-2 mb-4">
-                        <i data-lucide="mountain-snow" class="text-brand-accent"></i>
-                        <span class="text-xl font-bold font-display text-white">Summit Seeker</span>
-                    </a>
-                    <p class="mb-4">
-                        <span data-lang="id">Menghubungkan petualang dengan puncak-puncak termegah di dunia.</span>
-                        <span data-lang="en" class="hidden">Connecting adventurers with the world's grandest peaks.</span>
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="social-icon"><i data-lucide="instagram"></i></a>
-                        <a href="#" class="social-icon"><i data-lucide="youtube"></i></a>
-                        <a href="#" class="social-icon"><i data-lucide="facebook"></i></a>
-                        <a href="#" class="social-icon"><i data-lucide="twitter"></i></a>
-                    </div>
-                </div>
-                <!-- Column 2: Quick Links -->
-                <div>
-                    <h4 class="footer-heading">
-                        <span data-lang="id">Tautan Cepat</span><span data-lang="en" class="hidden">Quick Links</span></h4>
-                    <ul class="space-y-3">
-                        <li><a href="#destinasi" class="footer-link">
-                            <span data-lang="id">Destinasi</span><span data-lang="en" class="hidden">Destinations</span></a></li>
-                        <li><a href="#blog" class="footer-link">Blog</a></li>
-                        <li><a href="#reservasi" class="footer-link">
-                            <span data-lang="id">Reservasi</span><span data-lang="en" class="hidden">Booking</span></a></li>
-                        <li><a href="#kontak" class="footer-link">
-                            <span data-lang="id">Kontak</span><span data-lang="en" class="hidden">Contact</span></a></li>
-                    </ul>
-                </div>
-                <!-- Column 3: Bantuan -->
-                 <div>
-                    <h4 class="footer-heading">
-                        <span data-lang="id">Bantuan</span><span data-lang="en" class="hidden">Help</span></h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link">FAQ</a></li>
-                        <li><a href="#" class="footer-link">
-                            <span data-lang="id">Syarat & Ketentuan</span><span data-lang="en" class="hidden">Terms & Conditions</span></a></li>
-                        <li><a href="#" class="footer-link">
-                            <span data-lang="id">Kebijakan Privasi</span><span data-lang="en" class="hidden">Privacy Policy</span></a></li>
-                    </ul>
-                </div>
-                <!-- Column 4: Newsletter -->
-                 <div>
-                    <h4 class="footer-heading">
-                        <span data-lang="id">Langganan Newsletter</span><span data-lang="en" class="hidden">Subscribe Newsletter</span>
-                    </h4>
-                    <p class="mb-4">
-                        <span data-lang="id">Dapatkan info dan penawaran terbaru dari kami.</span>
-                        <span data-lang="en" class="hidden">Get the latest info and offers from us.</span>
-                    </p>
-                    <form class="flex">
-                        <input type="email" placeholder="Email Anda" class="w-full bg-slate-800 border border-slate-700 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-accent">
-                        <button class="bg-brand-accent hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-md transition">
-                            <i data-lucide="send"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 mt-12 pt-8 text-center text-sm">
-                <p>&copy; <span id="current-year"></span> Summit Seeker. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    html {
+      scroll-behavior: smooth;
+    }
     
-    <!-- Search Overlay -->
-    <div id="search-overlay" class="fixed inset-0 bg-black/90 z-[99] hidden items-center justify-center p-4">
-        <button id="search-close-btn" class="absolute top-8 right-8 text-white">
-            <i data-lucide="x" class="w-10 h-10"></i>
-        </button>
-        <div class="w-full max-w-2xl">
-            <input type="search" placeholder="Ketik untuk mencari..." class="w-full bg-transparent border-b-2 border-slate-500 text-white text-3xl text-center focus:outline-none focus:border-brand-accent py-4">
+    /* Cloud animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-20px) translateX(10px); }
+    }
+    
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-15px) translateX(-15px); }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .cloud-1 { animation: float 8s ease-in-out infinite; }
+    .cloud-2 { animation: floatSlow 10s ease-in-out infinite; animation-delay: -2s; }
+    .cloud-3 { animation: float 12s ease-in-out infinite; animation-delay: -4s; }
+    
+    .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+    .animate-fadeInLeft { animation: fadeInLeft 0.8s ease-out forwards; }
+    .animate-fadeInRight { animation: fadeInRight 0.8s ease-out forwards; }
+    .animate-scaleIn { animation: scaleIn 0.6s ease-out forwards; }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-600 { animation-delay: 0.6s; }
+    
+    /* Gradient backgrounds */
+    .bg-sky-gradient {
+      background: linear-gradient(180deg, #87CEEB 0%, #B8E4F9 50%, #E8F5FC 100%);
+    }
+    
+    .bg-section-light {
+      background: linear-gradient(180deg, #F0F9FF 0%, #FFFFFF 100%);
+    }
+    
+    .bg-section-sky {
+      background: linear-gradient(180deg, #E0F2FE 0%, #F0F9FF 100%);
+    }
+    
+    /* Card hover effects */
+    .card-hover {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(135, 206, 235, 0.4);
+    }
+    
+    /* Progress bar animation */
+    .progress-bar {
+      transition: width 1s ease-out;
+    }
+    
+    /* Scroll indicator */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+    
+    .scroll-indicator { animation: bounce 2s infinite; }
+    
+    /* Navigation active state */
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #0EA5E9;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #E0F2FE;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #87CEEB;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0EA5E9;
+    }
+    
+    /* Timeline styles */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      background: #0EA5E9;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 4px #BAE6FD;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app-wrapper" class="w-full min-h-full"><!-- Floating Clouds Background -->
+   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <svg class="cloud-1 absolute top-20 left-10 w-32 h-20 opacity-60" viewbox="0 0 100 60"><ellipse cx="30" cy="40" rx="25" ry="15" fill="white" /> <ellipse cx="50" cy="35" rx="30" ry="20" fill="white" /> <ellipse cx="75" cy="40" rx="20" ry="12" fill="white" />
+    </svg>
+    <svg class="cloud-2 absolute top-40 right-20 w-40 h-24 opacity-50" viewbox="0 0 100 60"><ellipse cx="25" cy="40" rx="20" ry="12" fill="white" /> <ellipse cx="50" cy="32" rx="28" ry="18" fill="white" /> <ellipse cx="78" cy="38" rx="18" ry="10" fill="white" />
+    </svg>
+    <svg class="cloud-3 absolute top-96 left-1/4 w-28 h-16 opacity-40" viewbox="0 0 100 60"><ellipse cx="30" cy="38" rx="22" ry="14" fill="white" /> <ellipse cx="55" cy="35" rx="25" ry="16" fill="white" /> <ellipse cx="80" cy="40" rx="15" ry="10" fill="white" />
+    </svg>
+   </div><!-- Header/Navigation -->
+   <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <nav class="max-w-6xl mx-auto px-6 py-4">
+     <div class="backdrop-blur-md bg-white/80 rounded-2xl shadow-lg px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-md">
+        B
+       </div><span id="nav-name" class="font-display font-bold text-xl text-sky-800">Bianita</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8"><a href="#home" class="nav-link text-sky-700 font-medium hover:text-sky-500 transition-colors">Home</a> <a href="#about" class="nav-link text-sky-700 font-medium hover:text-sky-500 transition-colors">About</a> <a href="#skills" class="nav-link text-sky-700 font-medium hover:text-sky-500 transition-colors">Skills</a> <a href="#portfolio" class="nav-link text-sky-700 font-medium hover:text-sky-500 transition-colors">Portfolio</a> <a href="#experience" class="nav-link text-sky-700 font-medium hover:text-sky-500 transition-colors">Pengalaman</a> <a href="#contact" class="nav-link px-5 py-2 bg-gradient-to-r from-sky-400 to-blue-500 text-white rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">Contact</a>
+      </div><!-- Mobile Menu Button --> <button id="mobile-menu-btn" class="md:hidden p-2 text-sky-700 hover:bg-sky-100 rounded-lg transition-colors">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+       </svg></button>
+     </div><!-- Mobile Menu -->
+     <div id="mobile-menu" class="hidden md:hidden mt-2 backdrop-blur-md bg-white/95 rounded-2xl shadow-lg p-4">
+      <div class="flex flex-col gap-3"><a href="#home" class="px-4 py-2 text-sky-700 font-medium hover:bg-sky-100 rounded-lg transition-colors">Home</a> <a href="#about" class="px-4 py-2 text-sky-700 font-medium hover:bg-sky-100 rounded-lg transition-colors">About</a> <a href="#skills" class="px-4 py-2 text-sky-700 font-medium hover:bg-sky-100 rounded-lg transition-colors">Skills</a> <a href="#portfolio" class="px-4 py-2 text-sky-700 font-medium hover:bg-sky-100 rounded-lg transition-colors">Portfolio</a> <a href="#experience" class="px-4 py-2 text-sky-700 font-medium hover:bg-sky-100 rounded-lg transition-colors">Pengalaman</a> <a href="#contact" class="px-4 py-2 bg-gradient-to-r from-sky-400 to-blue-500 text-white rounded-lg font-medium text-center">Contact</a>
+      </div>
+     </div>
+    </nav>
+   </header><!-- Hero Section -->
+   <section id="home" class="min-h-screen bg-sky-gradient relative flex items-center pt-20">
+    <div class="max-w-6xl mx-auto px-6 py-16 w-full">
+     <div class="grid md:grid-cols-2 gap-12 items-center"><!-- Left Content -->
+      <div class="text-center md:text-left order-2 md:order-1">
+       <div class="animate-fadeInLeft opacity-0"><span class="inline-block px-4 py-1 bg-white/60 backdrop-blur-sm rounded-full text-sky-600 font-medium text-sm mb-4"> 👋 Selamat Datang! </span>
+       </div>
+       <h1 class="animate-fadeInLeft opacity-0 delay-100 font-display text-4xl md:text-5xl lg:text-6xl font-bold text-sky-900 leading-tight mb-4"><span id="hero-name">Bianita Maulida Setiawan</span></h1>
+       <p id="hero-role" class="animate-fadeInLeft opacity-0 delay-200 text-xl md:text-2xl text-sky-700 font-medium mb-6">🎨 Melukis • 🏃‍♀️ Berolahraga • 🍳 Memasak</p>
+       <p id="hero-intro" class="animate-fadeInLeft opacity-0 delay-300 text-sky-600 text-lg leading-relaxed mb-8 max-w-lg">Hi, namaku Bianita Maulida Setiawan. Tinggal di Subang dengan suasana asri perkebunan, lahir tanggal 20 Maret 2008.</p>
+       <div class="animate-fadeInLeft opacity-0 delay-400 flex flex-wrap gap-4 justify-center md:justify-start"><a href="#portfolio" class="px-8 py-3 bg-gradient-to-r from-sky-400 to-blue-500 text-white rounded-full font-semibold hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"> <span>Lihat Portofolio</span>
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+         </svg></a> <a href="#contact" class="px-8 py-3 bg-white/80 backdrop-blur-sm text-sky-700 rounded-full font-semibold hover:bg-white hover:shadow-lg transition-all border border-sky-200"> Hubungi Saya </a>
+       </div>
+      </div><!-- Right - Profile Illustration -->
+      <div class="order-1 md:order-2 flex justify-center">
+       <div class="animate-scaleIn opacity-0 delay-200 relative"><!-- Decorative circles -->
+        <div class="absolute -top-4 -left-4 w-72 h-72 md:w-96 md:h-96 bg-sky-300/30 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-4 -right-4 w-64 h-64 md:w-80 md:h-80 bg-blue-300/30 rounded-full blur-2xl"></div><!-- Profile container -->
+        <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-sky-200 to-blue-200 p-2 shadow-2xl overflow-hidden"><img src="https://i.ibb.co.com/Kz8gmsQL/Whats-App-Image-2026-02-05-at-09-32-22.jpg" alt="Bianita Maulida Setiawan" loading="lazy" class="w-full h-full rounded-full object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='#87CEEB'; this.alt='Foto profil tidak tersedia';">
+        </div><!-- Floating elements -->
+        <div class="absolute -top-2 -right-2 w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center animate-bounce"><span class="text-3xl">🎨</span>
         </div>
+        <div class="absolute -bottom-2 -left-2 w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center" style="animation: bounce 2s infinite 0.5s"><span class="text-2xl">🍳</span>
+        </div>
+        <div class="absolute top-1/2 -right-6 w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center" style="animation: bounce 2s infinite 1s"><span class="text-xl">🔬</span>
+        </div>
+       </div>
+      </div>
+     </div><!-- Scroll Indicator -->
+     <div class="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-sky-600"><span class="text-sm font-medium">Scroll ke bawah</span>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+     </div>
     </div>
-
-    <!-- Video Popup Modal -->
-    <div id="video-popup" class="fixed inset-0 bg-black/80 z-[99] hidden items-center justify-center p-4">
-        <div class="relative w-full max-w-4xl bg-black rounded-lg overflow-hidden">
-            <button id="video-close-btn" class="absolute top-2 right-4 text-white text-4xl">&times;</button>
-            <div class="aspect-w-16 aspect-h-9">
-                <iframe id="video-iframe" src="https://www.youtube.com/embed/CnX6wy_y4bk?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+   </section><!-- About Section -->
+   <section id="about" class="py-20 bg-section-light relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="inline-block px-4 py-1 bg-sky-100 rounded-full text-sky-600 font-medium text-sm mb-4">Tentang Saya</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-sky-900">Kenali Lebih Dekat</h2>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12 items-center"><!-- About Image/Illustration -->
+      <div class="relative">
+       <div class="bg-gradient-to-br from-sky-100 to-blue-100 rounded-3xl p-8 shadow-xl">
+        <div class="grid grid-cols-2 gap-4"><!-- Hobby cards -->
+         <div class="bg-white rounded-2xl p-4 shadow-md card-hover">
+          <div class="text-4xl mb-2">
+           🎨
+          </div>
+          <h4 class="font-semibold text-sky-800">Melukis</h4>
+          <p class="text-sm text-sky-600">Lukisan alam perkebunan</p>
+         </div>
+         <div class="bg-white rounded-2xl p-4 shadow-md card-hover">
+          <div class="text-4xl mb-2">
+           🍳
+          </div>
+          <h4 class="font-semibold text-sky-800">Memasak</h4>
+          <p class="text-sm text-sky-600">Kreasi menu lezat</p>
+         </div>
+         <div class="bg-white rounded-2xl p-4 shadow-md card-hover">
+          <div class="text-4xl mb-2">
+           🔬
+          </div>
+          <h4 class="font-semibold text-sky-800">Sains</h4>
+          <p class="text-sm text-sky-600">Biologi &amp; eksperimen</p>
+         </div>
+         <div class="bg-white rounded-2xl p-4 shadow-md card-hover">
+          <div class="text-4xl mb-2">
+           🏃‍♀️
+          </div>
+          <h4 class="font-semibold text-sky-800">Olahraga</h4>
+          <p class="text-sm text-sky-600">Gaya hidup sehat</p>
+         </div>
         </div>
+       </div>
+      </div><!-- About Text -->
+      <div>
+       <p id="about-text" class="text-sky-700 text-lg leading-relaxed mb-6">Saya adalah siswi di SMAN 1 Subang yang memiliki minat besar di bidang Sains. Sebagai pribadi yang disiplin dan terorganisir, saya selalu berupaya menyeimbangkan antara tanggung jawab akademik dan pengembangan diri melalui kegiatan organisasi.</p>
+       <div class="mb-6">
+        <h4 class="font-semibold text-sky-800 mb-3 flex items-center gap-2"><span class="text-xl">🎯</span> Minat &amp; Tujuan</h4>
+        <p class="text-sky-600">Bidang Biologi dan Memasak - mengeksplorasi keindahan alam melalui sains dan seni kuliner.</p>
+       </div><!-- Education Timeline -->
+       <div class="mb-6">
+        <h4 class="font-semibold text-sky-800 mb-4 flex items-center gap-2"><span class="text-xl">📚</span> Riwayat Pendidikan</h4>
+        <div class="relative border-l-2 border-sky-200 pl-6 space-y-4">
+         <div class="timeline-item relative"><span class="text-sky-500 text-sm font-medium">2023 - 2026</span>
+          <h5 class="font-semibold text-sky-800">SMAN 1 Subang</h5>
+         </div>
+         <div class="timeline-item relative"><span class="text-sky-500 text-sm font-medium">2020 - 2023</span>
+          <h5 class="font-semibold text-sky-800">SMPN 1 Subang</h5>
+         </div>
+         <div class="timeline-item relative"><span class="text-sky-500 text-sm font-medium">2014 - 2020</span>
+          <h5 class="font-semibold text-sky-800">SD Cigadung</h5>
+         </div>
+         <div class="timeline-item relative"><span class="text-sky-500 text-sm font-medium">2013</span>
+          <h5 class="font-semibold text-sky-800">TK Al-Akhbar</h5>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
     </div>
+   </section><!-- Skills Section -->
+   <section id="skills" class="py-20 bg-section-sky relative">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="inline-block px-4 py-1 bg-sky-100 rounded-full text-sky-600 font-medium text-sm mb-4">Keahlian</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-sky-900">Kemampuan Saya</h2>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12"><!-- Hard Skills -->
+      <div class="bg-white rounded-3xl p-8 shadow-xl card-hover">
+       <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-500 rounded-xl flex items-center justify-center"><span class="text-2xl">💪</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-sky-800">Hard Skills</h3>
+       </div>
+       <div class="space-y-5">
+        <div>
+         <div class="flex justify-between mb-2"><span class="text-sky-700 font-medium">🍳 Memasak (Kuliner)</span> <span class="text-sky-500">90%</span>
+         </div>
+         <div class="h-3 bg-sky-100 rounded-full overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style="width: 90%"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span class="text-sky-700 font-medium">🎨 Teknik Melukis</span> <span class="text-sky-500">85%</span>
+         </div>
+         <div class="h-3 bg-sky-100 rounded-full overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style="width: 85%"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span class="text-sky-700 font-medium">🔬 Dasar Sains/Biologi</span> <span class="text-sky-500">80%</span>
+         </div>
+         <div class="h-3 bg-sky-100 rounded-full overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style="width: 80%"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span class="text-sky-700 font-medium">📋 Manajemen Organisasi</span> <span class="text-sky-500">88%</span>
+         </div>
+         <div class="h-3 bg-sky-100 rounded-full overflow-hidden">
+          <div class="progress-bar h-full bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style="width: 88%"></div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Soft Skills -->
+      <div class="bg-white rounded-3xl p-8 shadow-xl card-hover">
+       <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-500 rounded-xl flex items-center justify-center"><span class="text-2xl">🧠</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-sky-800">Soft Skills</h3>
+       </div>
+       <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 text-center">
+         <div class="text-3xl mb-2">
+          ⏰
+         </div><span class="text-sky-700 font-medium text-sm">Disiplin</span>
+        </div>
+        <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 text-center">
+         <div class="text-3xl mb-2">
+          📊
+         </div><span class="text-sky-700 font-medium text-sm">Terorganisir</span>
+        </div>
+        <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 text-center">
+         <div class="text-3xl mb-2">
+          ⏱️
+         </div><span class="text-sky-700 font-medium text-sm">Manajemen Waktu</span>
+        </div>
+        <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 text-center">
+         <div class="text-3xl mb-2">
+          🤝
+         </div><span class="text-sky-700 font-medium text-sm">Kerja Tim</span>
+        </div>
+        <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-4 text-center col-span-2">
+         <div class="text-3xl mb-2">
+          💬
+         </div><span class="text-sky-700 font-medium text-sm">Komunikasi Efektif</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Portfolio Section -->
+   <section id="portfolio" class="py-20 bg-section-light relative">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="inline-block px-4 py-1 bg-sky-100 rounded-full text-sky-600 font-medium text-sm mb-4">Portofolio</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-sky-900">Karya &amp; Proyek</h2>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8"><!-- Portfolio Item 1 -->
+      <div class="group bg-white rounded-3xl overflow-hidden shadow-xl card-hover">
+       <div class="h-48 bg-gradient-to-br from-emerald-200 via-green-200 to-sky-200 relative overflow-hidden"><!-- Painting illustration -->
+        <svg viewbox="0 0 200 150" class="w-full h-full"><rect fill="url(#painting-bg)" width="200" height="150" /> <!-- Mountains --> <path d="M0 150 L40 80 L80 120 L120 60 L160 100 L200 70 L200 150 Z" fill="#86EFAC" opacity="0.8" /> <path d="M0 150 L60 100 L100 130 L140 90 L200 120 L200 150 Z" fill="#4ADE80" opacity="0.7" /> <!-- Trees --> <ellipse cx="30" cy="130" rx="15" ry="20" fill="#22C55E" /> <ellipse cx="70" cy="125" rx="12" ry="18" fill="#16A34A" /> <ellipse cx="160" cy="120" rx="18" ry="25" fill="#22C55E" /> <!-- Sun --> <circle cx="170" cy="30" r="20" fill="#FDE047" /> <!-- Clouds --> <ellipse cx="50" cy="30" rx="20" ry="10" fill="white" opacity="0.8" /> <ellipse cx="70" cy="28" rx="15" ry="8" fill="white" opacity="0.8" /> <defs>
+          <lineargradient id="painting-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+           <stop offset="0%" style="stop-color:#87CEEB" />
+           <stop offset="100%" style="stop-color:#E0F2FE" />
+          </lineargradient>
+         </defs>
+        </svg><!-- Hover overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-sky-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4"><span class="text-white font-medium">Lihat Detail →</span>
+        </div>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-xs font-medium">Seni Rupa</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-sky-800 mb-2">Koleksi Lukisan Alam</h3>
+        <p class="text-sky-600 text-sm">Serangkaian lukisan bertema perkebunan sesuai dengan domisili di Subang.</p>
+       </div>
+      </div><!-- Portfolio Item 2 -->
+      <div class="group bg-white rounded-3xl overflow-hidden shadow-xl card-hover">
+       <div class="h-48 bg-gradient-to-br from-purple-200 via-blue-200 to-cyan-200 relative overflow-hidden flex items-center justify-center"><!-- Lab illustration -->
+        <svg viewbox="0 0 100 100" class="w-32 h-32"><!-- Flask --> <path d="M35 20 L35 45 L20 80 Q18 90 30 90 L70 90 Q82 90 80 80 L65 45 L65 20" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2" /> <rect x="32" y="15" width="36" height="8" rx="2" fill="#0EA5E9" /> <!-- Liquid --> <path d="M25 75 Q30 70 40 72 Q50 75 60 72 Q70 70 75 75 L80 80 Q82 88 70 88 L30 88 Q18 88 20 80 Z" fill="#8B5CF6" opacity="0.6" /> <!-- Bubbles --> <circle cx="40" cy="70" r="3" fill="#A78BFA" /> <circle cx="55" cy="65" r="4" fill="#A78BFA" /> <circle cx="48" cy="75" r="2" fill="#C4B5FD" />
+        </svg>
+        <div class="absolute inset-0 bg-gradient-to-t from-sky-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4"><span class="text-white font-medium">Lihat Detail →</span>
+        </div>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">Sains</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-sky-800 mb-2">Eksperimen Biologi</h3>
+        <p class="text-sky-600 text-sm">Laporan atau dokumentasi praktikum sains di SMAN 1 Subang.</p>
+       </div>
+      </div><!-- Portfolio Item 3 -->
+      <div class="group bg-white rounded-3xl overflow-hidden shadow-xl card-hover">
+       <div class="h-48 bg-gradient-to-br from-orange-200 via-amber-200 to-yellow-200 relative overflow-hidden flex items-center justify-center"><!-- Food illustration -->
+        <svg viewbox="0 0 100 100" class="w-32 h-32"><!-- Plate --> <ellipse cx="50" cy="70" rx="40" ry="15" fill="#F5F5F4" /> <ellipse cx="50" cy="68" rx="35" ry="12" fill="#FAFAF9" /> <!-- Food items --> <ellipse cx="40" cy="55" rx="15" ry="10" fill="#FB923C" /> <ellipse cx="60" cy="58" rx="12" ry="8" fill="#84CC16" /> <ellipse cx="50" cy="50" rx="10" ry="8" fill="#FBBF24" /> <!-- Steam --> <path d="M35 35 Q37 30 35 25 Q33 20 35 15" stroke="#D6D3D1" stroke-width="2" fill="none" opacity="0.6" /> <path d="M50 30 Q52 25 50 20 Q48 15 50 10" stroke="#D6D3D1" stroke-width="2" fill="none" opacity="0.6" /> <path d="M65 35 Q67 30 65 25 Q63 20 65 15" stroke="#D6D3D1" stroke-width="2" fill="none" opacity="0.6" />
+        </svg>
+        <div class="absolute inset-0 bg-gradient-to-t from-sky-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4"><span class="text-white font-medium">Lihat Detail →</span>
+        </div>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-medium">Kuliner</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-sky-800 mb-2">Kreasi Menu Masakan</h3>
+        <p class="text-sky-600 text-sm">Portofolio resep atau dokumentasi hasil masakan sebagai bagian dari hobi memasak.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Experience Section -->
+   <section id="experience" class="py-20 bg-section-sky relative">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="inline-block px-4 py-1 bg-sky-100 rounded-full text-sky-600 font-medium text-sm mb-4">Pengalaman</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-sky-900">Organisasi &amp; Prestasi</h2>
+     </div>
+     <div class="grid md:grid-cols-2 gap-8"><!-- Organization Experience -->
+      <div class="bg-white rounded-3xl p-8 shadow-xl">
+       <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-rose-500 rounded-xl flex items-center justify-center"><span class="text-2xl">🏥</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-sky-800">Pengalaman Organisasi</h3>
+       </div>
+       <div class="space-y-4">
+        <div class="flex items-start gap-4 p-4 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl">
+         <div class="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-lg">👑</span>
+         </div>
+         <div>
+          <h4 class="font-semibold text-sky-800">Ketua Divisi Pertolongan Pertama</h4>
+          <p class="text-sky-600 text-sm">PMR SMAN 1 Subang</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-4 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl">
+         <div class="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-lg">📝</span>
+         </div>
+         <div>
+          <h4 class="font-semibold text-sky-800">Sekretaris Ekstrakurikuler</h4>
+          <p class="text-sky-600 text-sm">SMAN 1 Subang</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-4 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl">
+         <div class="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-lg">🩸</span>
+         </div>
+         <div>
+          <h4 class="font-semibold text-sky-800">Panitia Donor Darah</h4>
+          <p class="text-sky-600 text-sm">2024</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-4 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl">
+         <div class="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-lg">🎓</span>
+         </div>
+         <div>
+          <h4 class="font-semibold text-sky-800">Panitia Diklat PMR</h4>
+          <p class="text-sky-600 text-sm">2025</p>
+         </div>
+        </div>
+       </div>
+       <div class="mt-4 text-center"><span class="text-sky-500 text-sm font-medium">...dan masih banyak lagi</span>
+       </div>
+      </div><!-- Achievement Stats -->
+      <div class="space-y-6">
+       <div class="bg-white rounded-3xl p-8 shadow-xl card-hover">
+        <div class="grid grid-cols-2 gap-6">
+         <div class="text-center">
+          <div class="text-4xl font-bold text-sky-500 mb-1">
+           4+
+          </div>
+          <div class="text-sky-600 text-sm">
+           Posisi Organisasi
+          </div>
+         </div>
+         <div class="text-center">
+          <div class="text-4xl font-bold text-sky-500 mb-1">
+           10+
+          </div>
+          <div class="text-sky-600 text-sm">
+           Kegiatan Diikuti
+          </div>
+         </div>
+         <div class="text-center">
+          <div class="text-4xl font-bold text-sky-500 mb-1">
+           3
+          </div>
+          <div class="text-sky-600 text-sm">
+           Tahun Pengalaman
+          </div>
+         </div>
+         <div class="text-center">
+          <div class="text-4xl font-bold text-sky-500 mb-1">
+           ∞
+          </div>
+          <div class="text-sky-600 text-sm">
+           Semangat Belajar
+          </div>
+         </div>
+        </div>
+       </div><!-- Quote -->
+       <div class="bg-gradient-to-br from-sky-400 to-blue-500 rounded-3xl p-8 text-white shadow-xl">
+        <svg class="w-10 h-10 mb-4 opacity-50" fill="currentColor" viewbox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+        </svg>
+        <p class="text-lg font-medium italic mb-4">"Disiplin adalah jembatan antara tujuan dan pencapaian."</p>
+        <p class="text-sky-100 text-sm">- Prinsip Hidup Saya</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-20 bg-section-light relative">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="text-center mb-16"><span class="inline-block px-4 py-1 bg-sky-100 rounded-full text-sky-600 font-medium text-sm mb-4">Kontak</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-sky-900">Hubungi Saya</h2>
+      <p class="text-sky-600 mt-4 max-w-lg mx-auto">Tertarik untuk berkolaborasi atau ingin tahu lebih lanjut? Jangan ragu untuk menghubungi saya!</p>
+     </div>
+     <div class="grid md:grid-cols-2 gap-12"><!-- Contact Info -->
+      <div class="space-y-6"><a href="mailto:sabia032008@gmail.com" class="flex items-center gap-4 p-6 bg-white rounded-2xl shadow-lg card-hover group">
+        <div class="w-14 h-14 bg-gradient-to-br from-sky-400 to-blue-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+         </svg>
+        </div>
+        <div>
+         <h4 class="font-semibold text-sky-800">Email</h4>
+         <p id="contact-email-display" class="text-sky-600">sabia032008@gmail.com</p>
+        </div></a> <a href="https://wa.me/6285134572366" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-6 bg-white rounded-2xl shadow-lg card-hover group">
+        <div class="w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+         <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+         </svg>
+        </div>
+        <div>
+         <h4 class="font-semibold text-sky-800">WhatsApp</h4>
+         <p id="contact-phone-display" class="text-sky-600">085134572366</p>
+        </div></a> <a href="https://www.instagram.com/bianitamaw" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-6 bg-white rounded-2xl shadow-lg card-hover group">
+        <div class="w-14 h-14 bg-gradient-to-br from-pink-500 via-rose-500 to-orange-400 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+         <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+         </svg>
+        </div>
+        <div>
+         <h4 class="font-semibold text-sky-800">Instagram</h4>
+         <p class="text-sky-600">@bianitamaw</p>
+        </div></a>
+      </div><!-- Contact Form -->
+      <div class="bg-white rounded-3xl p-8 shadow-xl">
+       <h3 class="font-display text-xl font-bold text-sky-800 mb-6">Kirim Pesan</h3>
+       <form id="contact-form" class="space-y-5">
+        <div><label for="name" class="block text-sky-700 font-medium mb-2">Nama</label> <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-xl border border-sky-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition-all" placeholder="Nama lengkap Anda">
+        </div>
+        <div><label for="email" class="block text-sky-700 font-medium mb-2">Email</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-sky-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition-all" placeholder="email@example.com">
+        </div>
+        <div><label for="message" class="block text-sky-700 font-medium mb-2">Pesan</label> <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 rounded-xl border border-sky-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition-all resize-none" placeholder="Tulis pesan Anda..."></textarea>
+        </div><button type="submit" class="w-full py-4 bg-gradient-to-r from-sky-400 to-blue-500 text-white rounded-xl font-semibold hover:shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2"> <span>Kirim Pesan</span>
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+         </svg></button>
+       </form>
+       <div id="form-message" class="hidden mt-4 p-4 rounded-xl text-center"></div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="bg-gradient-to-br from-sky-800 to-blue-900 text-white py-12">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+       <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xl">
+        B
+       </div>
+       <div>
+        <h4 class="font-display font-bold text-lg">Bianita Maulida Setiawan</h4>
+        <p class="text-sky-200 text-sm">Portfolio Personal</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-4"><a href="https://www.instagram.com/bianitamaw" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg></a> <a href="mailto:sabia032008@gmail.com" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg></a> <a href="https://wa.me/6285134572366" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg></a>
+      </div>
+     </div>
+     <div class="border-t border-white/20 mt-8 pt-8 text-center">
+      <p class="text-sky-200 text-sm">© Bianita – 2026. All rights reserved.</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      site_name: 'Bianita',
+      tagline: 'Portfolio Personal',
+      hero_greeting: 'Hi, namaku Bianita Maulida Setiawan. Tinggal di Subang dengan suasana asri perkebunan, lahir tanggal 20 Maret 2008.',
+      hero_role: '🎨 Melukis • 🏃‍♀️ Berolahraga • 🍳 Memasak',
+      about_description: 'Saya adalah siswi di SMAN 1 Subang yang memiliki minat besar di bidang Sains. Sebagai pribadi yang disiplin dan terorganisir, saya selalu berupaya menyeimbangkan antara tanggung jawab akademik dan pengembangan diri melalui kegiatan organisasi.',
+      contact_email: 'sabia032008@gmail.com',
+      contact_phone: '085134572366',
+      background_color: '#87CEEB',
+      surface_color: '#FFFFFF',
+      text_color: '#0C4A6E',
+      primary_action_color: '#0EA5E9',
+      secondary_action_color: '#38BDF8'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
     
-    <!-- Chatbot Widget -->
-    <div class="fixed bottom-6 right-6 z-40">
-        <div id="chat-window" class="hidden absolute bottom-20 right-0 w-80 h-96 bg-white dark:bg-slate-800 rounded-xl shadow-2xl flex flex-col transition-all">
-            <div class="bg-brand-accent text-white p-4 rounded-t-xl">
-                <h4 class="font-bold">
-                    <span data-lang="id">Panduan Wisata</span><span data-lang="en" class="hidden">Tour Guide</span>
-                </h4>
-                <p class="text-sm">
-                    <span data-lang="id">Tanyakan apa saja!</span><span data-lang-en" class="hidden">Ask me anything!</span></p>
-            </div>
-            <div class="flex-1 p-4 text-sm text-slate-700 dark:text-slate-300">
-                <p>
-                    <span data-lang="id">Halo! Bagaimana saya bisa membantu Anda merencanakan petualangan hari ini?</span>
-                    <span data-lang-en" class="hidden">Hello! How can I help you plan your adventure today?</span>
-                </p>
-            </div>
-            <div class="p-2 border-t border-slate-200 dark:border-slate-700">
-                <input type="text" placeholder="Ketik pesan..." class="w-full bg-slate-100 dark:bg-slate-700 rounded-full px-4 py-2 text-sm focus:outline-none">
-            </div>
-        </div>
-        <button id="chatbot-toggle-btn" class="bg-brand-accent hover:bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-            <i data-lucide="message-circle" class="w-8 h-8"></i>
-        </button>
-    </div>
-
-    <!-- Main JavaScript Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-
-            // --- GLOBAL VARIABLES & HELPERS ---
-            const select = (el) => document.querySelector(el);
-            const selectAll = (el) => document.querySelectorAll(el);
-
-            // --- NAVBAR SCROLL BEHAVIOR ---
-            const navbar = select('#navbar');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('bg-white', 'dark:bg-slate-900', 'shadow-md');
-                } else {
-                    navbar.classList.remove('bg-white', 'dark:bg-slate-900', 'shadow-md');
-                }
-            });
-
-            // --- THEME (DARK/LIGHT MODE) TOGGLE ---
-            const themeToggleBtn = select('#theme-toggle-btn');
-            themeToggleBtn.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                const isDarkMode = document.documentElement.classList.contains('dark');
-                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-            });
-            
-            // --- LANGUAGE SWITCHER ---
-            const langSwitcher = select('#language-switcher');
-            const langElements = selectAll('[data-lang]');
-            
-            const setLanguage = (lang) => {
-                langElements.forEach(el => {
-                    if (el.dataset.lang === lang) {
-                        el.classList.remove('hidden');
-                    } else {
-                        el.classList.add('hidden');
-                    }
-                });
-                langSwitcher.value = lang;
-                localStorage.setItem('lang', lang);
-            };
-
-            langSwitcher.addEventListener('change', (e) => setLanguage(e.target.value));
-            // Set initial language
-            setLanguage(localStorage.getItem('lang') || 'id');
-
-
-            // --- SEARCH OVERLAY ---
-            const searchOpenBtn = select('#search-open-btn');
-            const searchCloseBtn = select('#search-close-btn');
-            const searchOverlay = select('#search-overlay');
-            searchOpenBtn.addEventListener('click', () => searchOverlay.classList.remove('hidden'));
-            searchCloseBtn.addEventListener('click', () => searchOverlay.classList.add('hidden'));
-
-            // --- MOBILE MENU ---
-            const mobileMenuBtn = select('#mobile-menu-btn');
-            const mobileMenu = select('#mobile-menu');
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // --- SCROLL ANIMATIONS (REVEAL) ---
-            const revealElements = selectAll('.reveal');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            revealElements.forEach(el => revealObserver.observe(el));
-
-            // --- COUNTER ANIMATION ---
-            const counters = selectAll('[data-counter]');
-            const counterObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const el = entry.target;
-                        const target = +el.dataset.counter;
-                        let count = 0;
-                        const duration = 2000;
-                        const stepTime = Math.abs(Math.floor(duration / target));
-
-                        const timer = setInterval(() => {
-                            count += Math.ceil(target / (duration / 10));
-                            if (count >= target) {
-                                count = target;
-                                clearInterval(timer);
-                            }
-                            el.innerText = count.toLocaleString();
-                        }, 10);
-                        observer.unobserve(el);
-                    }
-                });
-            }, { threshold: 0.5 });
-            counters.forEach(counter => counterObserver.observe(counter));
-            
-            // --- DESTINATION FILTER ---
-            const filterBtns = selectAll('.filter-btn');
-            const destinationCards = selectAll('.destination-card');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const filter = btn.dataset.filter;
-                    destinationCards.forEach(card => {
-                        if (filter === 'all' || card.dataset.category === filter) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-            
-            // --- TESTIMONIAL CAROUSEL ---
-            const testimonials = [
-                {
-                    quote_id: "Perjalanan terbaik dalam hidup saya! Summit Seeker mengatur semuanya dengan sempurna.",
-                    quote_en: "The best trip of my life! Summit Seeker organized everything perfectly.",
-                    author: "Alex Johnson",
-                    origin: "California, USA"
-                },
-                {
-                    quote_id: "Pemandu yang sangat profesional dan ramah. Pemandangannya luar biasa. Sangat direkomendasikan!",
-                    quote_en: "Very professional and friendly guides. The scenery was incredible. Highly recommended!",
-                    author: "Maria Garcia",
-                    origin: "Madrid, Spain"
-                },
-                {
-                    quote_id: "Pengalaman yang tak terlupakan. Tur virtualnya membuat saya memutuskan untuk pergi!",
-                    quote_en: "An unforgettable experience. The virtual tour made me decide to go!",
-                    author: "Kenji Tanaka",
-                    origin: "Tokyo, Japan"
-                }
-            ];
-
-            const carouselContainer = select('.testimonial-carousel');
-            const dotsContainer = select('#carousel-dots');
-            let currentSlide = 0;
-
-            testimonials.forEach((testimonial, index) => {
-                const item = document.createElement('div');
-                item.className = `carousel-item ${index === 0 ? 'active' : ''}`;
-                item.innerHTML = `
-                    <p class="text-xl md:text-2xl font-serif italic mb-6">
-                        "<span data-lang="id">${testimonial.quote_id}</span>
-                         <span data-lang="en" class="hidden">${testimonial.quote_en}</span>"
-                    </p>
-                    <div class="font-bold uppercase tracking-wider">${testimonial.author}</div>
-                    <div class="text-sm text-slate-500">${testimonial.origin}</div>
-                `;
-                carouselContainer.appendChild(item);
-
-                const dot = document.createElement('button');
-                dot.className = `w-3 h-3 rounded-full transition ${index === 0 ? 'bg-brand-accent' : 'bg-slate-300 dark:bg-slate-600'}`;
-                dot.addEventListener('click', () => showSlide(index));
-                dotsContainer.appendChild(dot);
-            });
-
-            const slides = selectAll('.carousel-item');
-            const dots = selectAll('#carousel-dots button');
-
-            function showSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === index);
-                    dots[i].classList.toggle('bg-brand-accent', i === index);
-                    dots[i].classList.toggle('bg-slate-300', i !== index);
-                    dots[i].classList.toggle('dark:bg-slate-600', i !== index);
-                });
-                currentSlide = index;
-            }
-
-            setInterval(() => {
-                let nextSlide = (currentSlide + 1) % slides.length;
-                showSlide(nextSlide);
-            }, 5000); // Change slide every 5 seconds
-            
-            // --- VIDEO POPUP ---
-            const videoPopupBtn = select('#video-popup-btn');
-            const videoPopup = select('#video-popup');
-            const videoCloseBtn = select('#video-close-btn');
-            const videoIframe = select('#video-iframe');
-
-            function toggleVideo(state) {
-                videoPopup.classList.toggle('hidden');
-                videoPopup.classList.toggle('flex');
-                const command = state === 'play' ? 'playVideo' : 'pauseVideo';
-                videoIframe.contentWindow.postMessage(`{"event":"command","func":"${command}","args":""}`, '*');
-            }
-
-            videoPopupBtn.addEventListener('click', () => toggleVideo('play'));
-            videoCloseBtn.addEventListener('click', () => toggleVideo('pause'));
-
-            // --- CHATBOT ---
-            const chatbotToggleBtn = select('#chatbot-toggle-btn');
-            const chatWindow = select('#chat-window');
-            chatbotToggleBtn.addEventListener('click', () => {
-                chatWindow.classList.toggle('hidden');
-            });
-
-            // --- FOOTER YEAR ---
-            select('#current-year').textContent = new Date().getFullYear();
-            
-            // --- Custom CSS application for form inputs and buttons ---
-            const formInputs = 'w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-transparent transition';
-            const formLabels = 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2';
-            const filterButtons = 'px-5 py-2 text-sm font-semibold rounded-full transition bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600';
-            const filterActive = 'bg-brand-accent text-white hover:bg-brand-accent dark:hover:bg-brand-accent';
-            const footerHeadings = 'text-white font-bold mb-4 uppercase tracking-wider text-sm';
-            const footerLinks = 'hover:text-white transition';
-            const socialIcons = 'w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-brand-accent transition';
-            
-            document.querySelectorAll('.form-input').forEach(el => el.className += ` ${formInputs}`);
-            document.querySelectorAll('.form-label').forEach(el => el.className += ` ${formLabels}`);
-            document.querySelectorAll('.filter-btn').forEach(el => {
-                el.className += ` ${filterButtons}`;
-                if(el.classList.contains('active')) el.className += ` ${filterActive}`;
-            });
-            document.querySelectorAll('.footer-heading').forEach(el => el.className += ` ${footerHeadings}`);
-            document.querySelectorAll('.footer-link').forEach(el => el.className += ` ${footerLinks}`);
-            document.querySelectorAll('.social-icon').forEach(el => el.className += ` ${socialIcons}`);
-
-            // Re-apply language after dynamic content injection (carousel)
-            setLanguage(localStorage.getItem('lang') || 'id');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      
+      // Close mobile menu when clicking a link
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
         });
-    </script>
-</body>
+      });
+    }
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Contact form handling
+    const contactForm = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        
+        // Show success message
+        formMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+        formMessage.classList.add('bg-green-100', 'text-green-700');
+        formMessage.innerHTML = `
+          <div class="flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>Terima kasih, ${name}! Pesan Anda telah terkirim.</span>
+          </div>
+        `;
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          formMessage.classList.add('hidden');
+        }, 5000);
+      });
+    }
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements for scroll animations
+    document.querySelectorAll('section > div').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        header.style.transform = currentScroll > lastScroll ? 'translateY(-100%)' : 'translateY(0)';
+      } else {
+        header.style.transform = 'translateY(0)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // onConfigChange function to update UI based on config
+    async function onConfigChange(cfg) {
+      // Update nav name
+      const navName = document.getElementById('nav-name');
+      if (navName) navName.textContent = cfg.site_name || defaultConfig.site_name;
+      
+      // Update hero section
+      const heroIntro = document.getElementById('hero-intro');
+      if (heroIntro) heroIntro.textContent = cfg.hero_greeting || defaultConfig.hero_greeting;
+      
+      const heroRole = document.getElementById('hero-role');
+      if (heroRole) heroRole.textContent = cfg.hero_role || defaultConfig.hero_role;
+      
+      // Update about section
+      const aboutText = document.getElementById('about-text');
+      if (aboutText) aboutText.textContent = cfg.about_description || defaultConfig.about_description;
+      
+      // Update contact displays
+      const contactEmailDisplay = document.getElementById('contact-email-display');
+      if (contactEmailDisplay) contactEmailDisplay.textContent = cfg.contact_email || defaultConfig.contact_email;
+      
+      const contactPhoneDisplay = document.getElementById('contact-phone-display');
+      if (contactPhoneDisplay) contactPhoneDisplay.textContent = cfg.contact_phone || defaultConfig.contact_phone;
+    }
+
+    // mapToCapabilities function
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (value) => {
+              cfg.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => cfg.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              cfg.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => {
+              cfg.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => cfg.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              cfg.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => cfg.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              cfg.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    // mapToEditPanelValues function
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['site_name', cfg.site_name || defaultConfig.site_name],
+        ['tagline', cfg.tagline || defaultConfig.tagline],
+        ['hero_greeting', cfg.hero_greeting || defaultConfig.hero_greeting],
+        ['hero_role', cfg.hero_role || defaultConfig.hero_role],
+        ['about_description', cfg.about_description || defaultConfig.about_description],
+        ['contact_email', cfg.contact_email || defaultConfig.contact_email],
+        ['contact_phone', cfg.contact_phone || defaultConfig.contact_phone]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Initial render
+    onConfigChange(config);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c8f3e9d63c2b907',t:'MTc3MDI2MTM0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
